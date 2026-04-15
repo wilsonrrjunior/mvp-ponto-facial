@@ -1,4 +1,6 @@
+# Repo: https://github.com/wilsonrrjunior/mvp-ponto-facial.git
 version: "3.7"
+
 
 services:
   # ── Backend (Face Recognition API) ──────────────────────────────────
