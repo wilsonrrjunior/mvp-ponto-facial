@@ -39,7 +39,7 @@ services:
       labels:
         - traefik.enable=true
         # IMPORTANTE: Altere para o seu domínio real no Portainer
-        - traefik.http.routers.ponto-facial.rule=Host(`ponto.wedigital.pro`)
+        - traefik.http.routers.ponto-facial.rule=Host(`reconhecimento.wedigital.pro`)
         - traefik.http.routers.ponto-facial.entrypoints=websecure
         - traefik.http.routers.ponto-facial.tls.certresolver=letsencryptresolver
         - traefik.http.routers.ponto-facial.service=ponto-facial
