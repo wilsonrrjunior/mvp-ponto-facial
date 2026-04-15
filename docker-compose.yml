@@ -1,30 +1,56 @@
+version: "3.7"
+
 services:
-  backend:
-    build: ./backend
-    container_name: ponto-facial-backend
-    restart: always
+  # ── Backend (Face Recognition API) ──────────────────────────────────
+  ponto-facial-api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: ponto-facial-api
+    networks:
+      - network_public
     environment:
       - DB_PATH=/data/face_db.pkl
     volumes:
       - ponto-facial-data:/data
-    networks:
-      - ponto-facial-network
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
 
-  frontend:
-    build: ./frontend
-    container_name: ponto-facial-frontend
-    restart: always
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
+  # ── Frontend (React + Nginx Proxy) ──────────────────────────────────
+  ponto-facial-web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: ponto-facial-web
     networks:
-      - ponto-facial-network
+      - network_public
+    depends_on:
+      - ponto-facial-api
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      labels:
+        - traefik.enable=true
+        # IMPORTANTE: Altere para o seu domínio real no Portainer
+        - traefik.http.routers.ponto-facial.rule=Host(`ponto.wedigital.pro`)
+        - traefik.http.routers.ponto-facial.entrypoints=websecure
+        - traefik.http.routers.ponto-facial.tls.certresolver=letsencryptresolver
+        - traefik.http.routers.ponto-facial.service=ponto-facial
+        - traefik.http.services.ponto-facial.loadbalancer.server.port=80
+        - traefik.http.services.ponto-facial.loadbalancer.passHostHeader=true
 
 volumes:
   ponto-facial-data:
     driver: local
 
 networks:
-  ponto-facial-network:
-    driver: bridge
+  network_public:
+    name: network_public
+    external: true
