@@ -1,0 +1,30 @@
+services:
+  backend:
+    build: ./backend
+    container_name: ponto-facial-backend
+    restart: always
+    environment:
+      - DB_PATH=/data/face_db.pkl
+    volumes:
+      - ponto-facial-data:/data
+    networks:
+      - ponto-facial-network
+
+  frontend:
+    build: ./frontend
+    container_name: ponto-facial-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - ponto-facial-network
+
+volumes:
+  ponto-facial-data:
+    driver: local
+
+networks:
+  ponto-facial-network:
+    driver: bridge

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ponto Facial</title>
+    <meta name="description" content="Sistema de ponto eletrônico com reconhecimento facial" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg-0:       #01040f;
+        --bg-1:       #030818;
+        --bg-2:       #050c20;
+        --card-bg:    rgba(8, 18, 48, 0.72);
+        --card-border:rgba(56, 130, 246, 0.14);
+        --card-glow:  rgba(45, 123, 255, 0.06);
+
+        --blue-100:   #dbeafe;
+        --blue-400:   #60a5fa;
+        --blue-500:   #3b82f6;
+        --blue-600:   #2563eb;
+        --blue-700:   #1d4ed8;
+        --blue-neon:  #2d7bff;
+        --cyan:       #00c2ff;
+
+        --green:      #05d98a;
+        --red:        #f04567;
+
+        --text-1:     #e8f0fe;
+        --text-2:     #8fafd8;
+        --text-3:     #4a6a9a;
+
+        --radius-sm:  8px;
+        --radius-md:  14px;
+        --radius-lg:  22px;
+
+        --shadow-blue: 0 0 28px rgba(45,123,255,0.22);
+        --shadow-card: 0 24px 60px rgba(0,0,0,0.55);
+      }
+
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        background: var(--bg-0);
+        color: var(--text-1);
+        font-family: 'Inter', system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+
+      /* Mesh background */
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(ellipse 70% 50% at 20% 10%, rgba(37,99,235,0.18) 0%, transparent 60%),
+          radial-gradient(ellipse 60% 60% at 80% 80%, rgba(0,194,255,0.10) 0%, transparent 55%),
+          radial-gradient(ellipse 80% 40% at 50% 50%, rgba(29,78,216,0.08) 0%, transparent 60%);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      #root { position: relative; z-index: 1; }
+
+      @keyframes scanDown {
+        0%   { top: -4px; }
+        100% { top: 100%; }
+      }
+      @keyframes pulse-ring {
+        0%   { opacity: 0.8; transform: scale(1); }
+        100% { opacity: 0;   transform: scale(1.8); }
+      }
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(12px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes shimmer {
+        0%   { background-position: -200% center; }
+        100% { background-position:  200% center; }
+      }
+
+      /* Scrollbar */
+      ::-webkit-scrollbar { width: 4px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: var(--blue-700); border-radius: 4px; }
+
+      input:focus { border-color: var(--blue-500) !important; outline: none; box-shadow: 0 0 0 3px rgba(59,130,246,0.18); }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
